@@ -1,0 +1,65 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load necessary libraries
+library(plotly)
+library(readxl)
+library(scales)
+library(grid)
+library(cowplot)
+
+# Required packages
+required_packages <- c("ggplot2", "dplyr", "tidyr", "gridExtra")
+
+# Function to safely load packages
+load_packages <- function(packages) {
+    for (package in packages) {
+        if (!requireNamespace(package, quietly = TRUE)) {
+            install.packages(package)
+            library(package, character.only = TRUE)
+        } else {
+            library(package, character.only = TRUE)
+        }
+    }
+}
+
+# Load required packages
+load_packages(required_packages)
+
+# Define base theme
+plttheme <- theme(
+    panel.background = element_rect(fill='transparent'),
+    text = element_text(size=12),
+    legend.direction = "horizontal",
+    legend.position = "bottom",
+    legend.key = element_rect(fill = "transparent"),
+    axis.line = element_line(colour = "black", size = 0.3),
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 12),
+    plot.title = element_text(size = 12),
+    legend.background = element_rect(fill = "transparent")
+)
+```
+
+# Example Plot Section
+```{r}
+# Text size control - Must be defined before sourcing script
+plot_title_size <- 10
+axis_title_size <- 10
+axis_text_size <- 6
+legend_title_size <- 8
+legend_text_size <- 6
+
+# Define script path
+script_path <- "plot_script.R"
+
+# Control settings
+save_plots <- TRUE
+pltsavedir <- "output_plots/"
+plot_dpi <- 1100
+plot_width <- 6.5
+plot_height <- 2.7
+
+# file.edit(script_path)  # Commented out as file is already created
+source(script_path)
+``` 
