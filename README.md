@@ -31,6 +31,8 @@ This directory contains templates for creating consistent plots in R using ggplo
 - Include redundant axis labels in combined plots
 - Keep individual legends in combined plots
 - Use inconsistent spacing in combined plots
+- Save plots without checking save_plots flag
+- Hardcode plot saving without conditional check
 
 ✅ **DO**:
 - Define base theme (`plttheme`) in Rmd setup
@@ -42,6 +44,8 @@ This directory contains templates for creating consistent plots in R using ggplo
 - Remove redundant axis labels in combined plots
 - Extract and combine legends for combined plots
 - Use proper alignment in combined plots
+- Always use conditional plot saving
+- Check for directory existence before saving
 
 ## Plotting Conventions
 
@@ -76,6 +80,32 @@ This directory contains templates for creating consistent plots in R using ggplo
   - `grid.arrange()`: For simple grid layouts with common labels
   - `plot_grid()`: For more complex layouts with proper alignment
 
+### Plot Saving Conventions
+- Always use conditional saving:
+  ```r
+  if (save_plots) {
+      # Create output directory if it doesn't exist
+      if (!dir.exists(pltsavedir)) {
+          dir.create(pltsavedir, recursive = TRUE)
+      }
+      
+      # Save plot
+      ggsave(
+          filename = file.path(pltsavedir, "plot_name.png"),
+          plot = p,
+          width = plot_width,
+          height = plot_height,
+          dpi = plot_dpi
+      )
+  }
+  ```
+- Save settings should be defined in Rmd:
+  - `save_plots`: Boolean flag to control saving
+  - `pltsavedir`: Output directory path
+  - `plot_dpi`: Resolution (default: 1100)
+  - `plot_width`: Width in inches
+  - `plot_height`: Height in inches
+
 ### Plot Dimensions
 - Default width: 6.5 inches
 - Default height: 2.7 inches
@@ -88,6 +118,7 @@ This directory contains templates for creating consistent plots in R using ggplo
 4. Use consistent naming conventions for output files
 5. **IMPORTANT**: Text size controls must be defined FIRST in each plot section
 6. **IMPORTANT**: Include commented out `file.edit` command before sourcing
+7. **IMPORTANT**: Always use conditional plot saving
 
 ## Usage
 
@@ -105,7 +136,12 @@ This directory contains templates for creating consistent plots in R using ggplo
    - Extract and combine legends
    - Use proper alignment and spacing
    - Add common axis labels
-5. Adjust plot dimensions and settings as needed while maintaining the established conventions
+5. For plot saving:
+   - Set `save_plots` flag in Rmd
+   - Define output directory and dimensions
+   - Use conditional saving in R script
+   - Check directory existence before saving
+6. Adjust plot dimensions and settings as needed while maintaining the established conventions
 
 ## Required Packages
 - ggplot2
