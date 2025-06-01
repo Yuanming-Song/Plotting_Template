@@ -8,7 +8,7 @@ This directory contains templates for creating consistent plots in R using ggplo
 - `plot_script.R`: R script template demonstrating how to create plots following the established conventions
 - `combined_plot_script.R`: Template for creating combined plots with proper axis labels and legends
 
-## Important Note on Theme and Text Size Organization
+## Important Note on Theme and Text Size Organization for coding agent
 ⚠️ **CRITICAL**: 
 - Rmd setup chunk should ONLY contain:
   - Package loading
