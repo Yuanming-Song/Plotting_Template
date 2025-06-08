@@ -33,6 +33,7 @@ This directory contains templates for creating consistent plots in R using ggplo
 - Use inconsistent spacing in combined plots
 - Save plots without checking save_plots flag
 - Hardcode plot saving without conditional check
+- Use grid.arrange for adding common labels (use ggdraw instead)
 
 ✅ **DO**:
 - Define base theme (`plttheme`) in Rmd setup
@@ -46,6 +47,7 @@ This directory contains templates for creating consistent plots in R using ggplo
 - Use proper alignment in combined plots
 - Always use conditional plot saving
 - Check for directory existence before saving
+- Use ggdraw() for adding common axis labels
 
 ## Plotting Conventions
 
@@ -76,9 +78,16 @@ This directory contains templates for creating consistent plots in R using ggplo
   - Use `align = "hv"` in `plot_grid()` for proper alignment
   - Use `rel_heights` to control legend spacing
   - Use `ncol` and `nrow` for grid layout
-- Common methods:
-  - `grid.arrange()`: For simple grid layouts with common labels
-  - `plot_grid()`: For more complex layouts with proper alignment
+- Common axis labels:
+  - Use `ggdraw()` to add common labels
+  - Position labels with `draw_plot()` and `draw_label()`
+  - Example:
+    ```r
+    combined_plot <- ggdraw() +
+        draw_plot(combined_plot, x = 0.02, y = 0.02, width = 0.98, height = 0.98) +
+        draw_label("Y Label", x = 0.02, y = 0.5, angle = 90, size = axis_title_size) +
+        draw_label("X Label", x = 0.5, y = 0.02, size = axis_title_size)
+    ```
 
 ### Plot Saving Conventions
 - Always use conditional saving:
@@ -135,7 +144,7 @@ This directory contains templates for creating consistent plots in R using ggplo
    - Create individual plots with appropriate axis labels
    - Extract and combine legends
    - Use proper alignment and spacing
-   - Add common axis labels
+   - Add common axis labels using ggdraw()
 5. For plot saving:
    - Set `save_plots` flag in Rmd
    - Define output directory and dimensions
@@ -152,4 +161,5 @@ This directory contains templates for creating consistent plots in R using ggplo
 - readxl
 - scales
 - grid
-- cowplot # Plotting_Template
+- cowplot
+ 

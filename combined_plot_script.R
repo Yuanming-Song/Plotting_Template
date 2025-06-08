@@ -76,18 +76,8 @@ p1 <- p1 + theme(legend.position = "none")
 p2 <- p2 + theme(legend.position = "none")
 p3 <- p3 + theme(legend.position = "none")
 
-# Combine plots
-# Method 1: Using grid.arrange
-combined_plot <- grid.arrange(
-    p1, p2, p3, p4,
-    ncol = 2,
-    nrow = 2,
-    bottom = textGrob("Common X Axis Label", gp = gpar(fontsize = axis_title_size)),
-    left = textGrob("Common Y Axis Label", gp = gpar(fontsize = axis_title_size), rot = 90)
-)
-
-# Method 2: Using plot_grid (from cowplot)
-combined_plot2 <- plot_grid(
+# Combine plots using plot_grid
+combined_plot <- plot_grid(
     p1, p2, p3, p4,
     ncol = 2,
     nrow = 2,
@@ -95,12 +85,18 @@ combined_plot2 <- plot_grid(
 )
 
 # Add common legend
-combined_plot2 <- plot_grid(
-    combined_plot2,
+combined_plot <- plot_grid(
+    combined_plot,
     legend,
     ncol = 1,
     rel_heights = c(4, 0.2)
 )
+
+# Add common axis labels using ggdraw
+combined_plot <- ggdraw() +
+    draw_plot(combined_plot, x = 0.02, y = 0.02, width = 0.98, height = 0.98) +
+    draw_label("Y Axis Label", x = 0.02, y = 0.5, angle = 90, size = axis_title_size) +
+    draw_label("X Axis Label", x = 0.5, y = 0.02, size = axis_title_size)
 
 # Save plots if save_plots is TRUE
 if (save_plots) {
@@ -109,24 +105,15 @@ if (save_plots) {
         dir.create(pltsavedir, recursive = TRUE)
     }
     
-    # Save combined plots
+    # Save combined plot
     ggsave(
-        filename = file.path(pltsavedir, "combined_plot_grid.png"),
+        filename = file.path(pltsavedir, "combined_plot.png"),
         plot = combined_plot,
-        width = plot_width,
-        height = plot_height,
-        dpi = plot_dpi
-    )
-    
-    ggsave(
-        filename = file.path(pltsavedir, "combined_plot_cowplot.png"),
-        plot = combined_plot2,
         width = plot_width,
         height = plot_height,
         dpi = plot_dpi
     )
 }
 
-# Display plots
-print(combined_plot)
-print(combined_plot2) 
+# Display plot
+print(combined_plot) 
